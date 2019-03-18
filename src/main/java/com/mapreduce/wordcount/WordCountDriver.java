@@ -21,14 +21,15 @@ public class WordCountDriver {
 	
 	public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
 		args = new String[] {
-				"hdfs://hadoopmaster:9000/wordcount/input",
-				"hdfs://hadoopmaster:9000/wordcount/output"
+				"hdfs://hadoopslave1:9000/wordcount/input",
+				"hdfs://hadoopslave1:9000/wordcount/output"
 			};
+ 
 				
 		System.setProperty("HADOOP_USER_NAME", "hadoop");
 		// hadoop默认配置参数
 		Configuration conf = new Configuration();
-		conf.set("fs.defaultFS", "hdfs://hadoopmaster:9000");
+		conf.set("fs.defaultFS", "hdfs://hadoopslave1:9000");
 		
 		// 获取job实例对象
 		Job job = Job.getInstance(conf);
