@@ -19,17 +19,35 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
  */
 public class WordCountDriver {
 	
+	
+	/*
+	 * 常用命令:
+	 * 上传文件:hadoop fs -put wordcount.txt /wordcount/input
+	 * 执行命令:hadoop jar wordcount.jar com.mapreduce.wordcount.WordCountDriver /wordcount/input /wordcount/output
+	 * 结果查看:hadoop fs -cat /wordcount/output/part-r-00000
+	 * 删除结果:hadoop dfs -rm  -R -f /wordcount/output/
+	 * jar包可以在任何一台hadoop上执行
+	 * */
 	public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
-		args = new String[] {
-				"hdfs://hadoopslave1:9000/wordcount/input",
-				"hdfs://hadoopslave1:9000/wordcount/output"
-			};
+		/*		args = new String[] {
+						"hdfs://hadoopslave1:9000/wordcount/input",
+						"hdfs://hadoopslave1:9000/wordcount/output"
+					};*/
  
-				
-		System.setProperty("HADOOP_USER_NAME", "hadoop");
+		
+		//提示用户不正确 Permission denied: user=Administrator, access=EXECUTE, inode="/tmp":hadoop:supergroup:drwx
+		/*	hdfs-site.xml设定不验证	 
+		 *  <property>
+	        <name>dfs.permissions</name>
+	        <value>false</value>
+	    </property>	*/
+		// Run Configurations  中：Arguments -->VM  arguments: -DHADOOP_USER_NAME=hadoop
+		//也可以直接hadoop fs -chmod -R 777 /
+		// System.setProperty("HADOOP_USER_NAME", "hadoop");
+		
 		// hadoop默认配置参数
 		Configuration conf = new Configuration();
-		conf.set("fs.defaultFS", "hdfs://hadoopslave1:9000");
+		conf.set("fs.defaultFS", "hdfs://hadoopsalve1:9000");
 		
 		// 获取job实例对象
 		Job job = Job.getInstance(conf);
