@@ -12,6 +12,8 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author lyl
@@ -19,6 +21,7 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
  */
 public class WordCountDriver {
 	
+	static Logger logger= LoggerFactory.getLogger(WordCountDriver.class);
 	
 	/*
 	 * 常用命令:
@@ -29,10 +32,14 @@ public class WordCountDriver {
 	 * jar包可以在任何一台hadoop上执行
 	 * */
 	public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
-		/*		args = new String[] {
-						"hdfs://hadoopslave1:9000/wordcount/input",
-						"hdfs://hadoopslave1:9000/wordcount/output"
-					};*/
+	 	/*	args = new String[] {
+					"hdfs://hadoopslave1:9000/wordcount/input",
+					"hdfs://hadoopslave1:9000/wordcount/output"
+				}; */
+		if (args != null || args.length < 2) {
+			System.out.println("main函数参数传递不正确！！！");
+			logger.error("main函数参数不正确！！！");
+		}
  
 		
 		//提示用户不正确 Permission denied: user=Administrator, access=EXECUTE, inode="/tmp":hadoop:supergroup:drwx
@@ -47,7 +54,7 @@ public class WordCountDriver {
 		
 		// hadoop默认配置参数
 		Configuration conf = new Configuration();
-		conf.set("fs.defaultFS", "hdfs://hadoopsalve1:9000");
+		//conf.set("fs.defaultFS", "hdfs://hadoopsalve1:9000");
 		
 		// 获取job实例对象
 		Job job = Job.getInstance(conf);
